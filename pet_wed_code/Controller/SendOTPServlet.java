@@ -6,7 +6,7 @@ package Controller;
 
 
 
-import Controller.EmailUtil;
+import Model.EmailUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -58,7 +58,7 @@ public class SendOTPServlet extends HttpServlet {
             updateStmt.executeUpdate();
 
             // Gửi OTP qua email
-            EmailUtil.sendOTPEmail(email, String.valueOf(otpCode));
+            EmailUtil.sendEmail(email, String.valueOf(otpCode));
 
             // Điều hướng đến trang xác thực
             response.sendRedirect("verification.jsp?email=" + email);
