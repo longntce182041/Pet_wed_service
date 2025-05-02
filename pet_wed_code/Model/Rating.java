@@ -1,26 +1,31 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package Model;
+
+/**
+ *
+ * @author Admin
+ */
 
 public class Rating {
     private int ratingId;
-    private String customerId; // ID khách hàng
-    private int ratingStar; // Số sao đánh giá (1-5)
-    private String comment; // Nội dung đánh giá
-    private int orderDetailId; // ID chi tiết đơn hàng
-    private String customerName; // Thêm thuộc tính này
+    private String customerFullName;
+    private String productName;
+    private int servicebookingId;
+    private int ratingStar;
+    private String comment;
 
-    // Constructor không tham số
-    public Rating() {
-    }
-
-    // Constructor đầy đủ tham số
-    public Rating(String customerId, int ratingStar, String comment, int orderDetailId) {
-        this.customerId = customerId;
+    public Rating(int ratingId, String customerFullName, String productName, int servicebookingId, int ratingStar, String comment) {
+        this.ratingId = ratingId;
+        this.customerFullName = customerFullName;
+        this.productName = productName;
+        this.servicebookingId = servicebookingId;
         this.ratingStar = ratingStar;
         this.comment = comment;
-        this.orderDetailId = orderDetailId;
     }
 
-    // Getters và setters
     public int getRatingId() {
         return ratingId;
     }
@@ -29,12 +34,28 @@ public class Rating {
         this.ratingId = ratingId;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getCustomerFullName() {
+        return customerFullName;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCustomerFullName(String customerFullName) {
+        this.customerFullName = customerFullName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getServicebookingId() {
+        return servicebookingId;
+    }
+
+    public void setServicebookingId(int servicebookingId) {
+        this.servicebookingId = servicebookingId;
     }
 
     public int getRatingStar() {
@@ -51,34 +72,5 @@ public class Rating {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public int getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(int orderDetailId) {
-        this.orderDetailId = orderDetailId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    // Phương thức toString để debug
-    @Override
-    public String toString() {
-        return "Rating{" +
-                "ratingId=" + ratingId +
-                ", customerId='" + customerId + '\'' +
-                ", ratingStar=" + ratingStar +
-                ", comment='" + comment + '\'' +
-                ", orderDetailId=" + orderDetailId +
-                ", customerName='" + customerName + '\'' +
-                '}';
-    }
+    } 
 }

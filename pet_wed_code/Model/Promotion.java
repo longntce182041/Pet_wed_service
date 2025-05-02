@@ -1,6 +1,6 @@
 package Model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Promotion {
     private String promotionId;
@@ -10,11 +10,28 @@ public class Promotion {
     private double discountValue;
     private Date startDate;
     private Date endDate;
-    private Double minOrderValue;
+    private double minOrderValue;
     private Double maxDiscount;
     private boolean isActive;
 
-    // Getters and setters
+    //Constructor
+    public Promotion(String promotionId, String promotionName, String promotionDescription, String discountType, double discountValue, Date startDate, Date endDate, double minOrderValue, Double maxDiscount, boolean isActive) {
+        this.promotionId = promotionId;
+        this.promotionName = promotionName;
+        this.promotionDescription = promotionDescription;
+        this.discountType = discountType;
+        this.discountValue = discountValue;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.minOrderValue = minOrderValue;
+        this.maxDiscount = maxDiscount;
+        this.isActive = isActive;
+    }
+    
+    
+    public Promotion() {
+    }
+
     public String getPromotionId() {
         return promotionId;
     }
@@ -71,11 +88,11 @@ public class Promotion {
         this.endDate = endDate;
     }
 
-    public Double getMinOrderValue() {
+    public double getMinOrderValue() {
         return minOrderValue;
     }
 
-    public void setMinOrderValue(Double minOrderValue) {
+    public void setMinOrderValue(double minOrderValue) {
         this.minOrderValue = minOrderValue;
     }
 
@@ -87,43 +104,12 @@ public class Promotion {
         this.maxDiscount = maxDiscount;
     }
 
-    public boolean isActive() {
+    public boolean isIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
-
-    public boolean isValid(double orderValue) {
-        Date now = new Date();
-
-        // Kiểm tra nếu ngày bắt đầu hoặc ngày kết thúc không hợp lệ
-        if (startDate == null || endDate == null) {
-            System.out.println("Start date or end date is null.");
-            return false;
-        }
-
-        // Kiểm tra nếu giá trị đơn hàng không hợp lệ
-        if (orderValue <= 0) {
-            System.out.println("Order value is invalid: " + orderValue);
-            return false;
-        }
-
-        // Kiểm tra ngày hiện tại có nằm trong khoảng thời gian hợp lệ
-        if (!now.after(startDate) || !now.before(endDate)) {
-            System.out.println("Current date is not within the promotion period.");
-            return false;
-        }
-
-        // Kiểm tra giá trị đơn hàng tối thiểu
-        if (minOrderValue != null && orderValue < minOrderValue) {
-            System.out.println("Order value does not meet the minimum order value.");
-            return false;
-        }
-
-        // Nếu tất cả các điều kiện đều hợp lệ
-        System.out.println("Promotion is valid.");
-        return true;
-    }
+    
 }
