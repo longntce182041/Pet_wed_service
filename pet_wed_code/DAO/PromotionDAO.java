@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package DAO;
 
 import ConnectDB.DBConnect;
@@ -5,43 +9,62 @@ import Model.Promotion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PromotionDAO {
 
-    public Promotion getPromotionByCode(String promoCode) {
-        String sql = "SELECT * FROM Promotion " +
-                     "WHERE promotion_id = ? AND is_active = 1 " +
-                     "AND GETDATE() BETWEEN start_date AND end_date";
-        try (Connection conn = DBConnect.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, promoCode);
-            ResultSet rs = stmt.executeQuery();
+    public static List<Promotion> getAllPromotions() throws Exception {
+        List<Promotion> promotions = new ArrayList<>();
+        String sql = "SELECT * FROM Promotion";
 
-            if (rs.next()) {
-                return mapResultSetToPromotion(rs);
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Promotion promo = new Promotion();
+                promo.setPromotionId(rs.getString("promotion_id"));
+                promo.setPromotionName(rs.getString("promotion_name"));
+                promo.setPromotionDescription(rs.getString("promotion_description"));
+                promo.setDiscountType(rs.getString("discount_type"));
+                promo.setDiscountValue(rs.getDouble("discount_value"));
+                promo.setStartDate(rs.getDate("start_date"));
+                promo.setEndDate(rs.getDate("end_date"));
+                promo.setMinOrderValue(rs.getDouble("min_order_value"));
+                promo.setMaxDiscount(rs.getDouble("max_discount"));
+                promo.setIsActive(rs.getBoolean("is_active"));
+                promotions.add(promo);
             }
-        } catch (SQLException e) {
-            // Ghi log lỗi thay vì in stack trace
-            System.err.println("Error while fetching promotion: " + e.getMessage());
         }
-        return null;
+
+        return promotions;
     }
 
-    // Phương thức riêng để ánh xạ ResultSet thành đối tượng Promotion
-    private Promotion mapResultSetToPromotion(ResultSet rs) throws SQLException {
-        Promotion promotion = new Promotion();
-        promotion.setPromotionId(rs.getString("promotion_id"));
-        promotion.setPromotionName(rs.getString("promotion_name"));
-        promotion.setPromotionDescription(rs.getString("promotion_description"));
-        promotion.setDiscountType(rs.getString("discount_type"));
-        promotion.setDiscountValue(rs.getDouble("discount_value"));
-        promotion.setStartDate(rs.getTimestamp("start_date"));
-        promotion.setEndDate(rs.getTimestamp("end_date"));
-        promotion.setMinOrderValue(rs.getObject("min_order_value") != null ? rs.getDouble("min_order_value") : 0.0);
-        promotion.setMaxDiscount(rs.getDouble("max_discount"));
-        promotion.setActive(rs.getBoolean("is_active"));
-        return promotion;
+    public static Promotion getPromotionById(String promotionId) throws Exception {
+        String sql = "SELECT * FROM Promotion WHERE promotion_id = ?";
+        try (Connection conn = DBConnect.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, promotionId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Promotion promo = new Promotion();
+                    promo.setPromotionId(rs.getString("promotion_id"));
+                    promo.setPromotionName(rs.getString("promotion_name"));
+                    promo.setPromotionDescription(rs.getString("promotion_description"));
+                    promo.setDiscountType(rs.getString("discount_type"));
+                    promo.setDiscountValue(rs.getDouble("discount_value"));
+                    promo.setStartDate(rs.getDate("start_date"));
+                    promo.setEndDate(rs.getDate("end_date"));
+                    promo.setMinOrderValue(rs.getDouble("min_order_value"));
+                    promo.setMaxDiscount(rs.getDouble("max_discount"));
+                    promo.setIsActive(rs.getBoolean("is_active"));
+                    return promo;
+                }
+            }
+        }
+
+        return null;
     }
 }
